@@ -2,7 +2,7 @@ import datetime
 import time
 from glob import glob
 from os import path, listdir
-from tkinter import filedialog
+from tkinter import filedialog, END
 
 import pandas as pd
 from easygui import multpasswordbox
@@ -185,6 +185,115 @@ def size_accounts(accounts):
     else:
         return 3
 
+def parse_315_input(edit_space,subvar,yearvar,freqvar):
+    accounts_str = edit_space.get(1.0,END)
+    accounts = [int(i[:8]) for i in accounts_str.splitlines() if len(i)>=8]
+    sub = subvar.get()
+    if (sub=="CSA"):
+        sub="CSAR0315"
+    elif (sub=="CFS"):
+        sub="CFSR0315"
+    elif(sub=="CCI"):
+        sub="CCIR0315"
+    elif (sub=="CITS"):
+        sub="CITSR315"
+    else:
+        sub="CUSR0315"
+    print(sub)
+    year = yearvar.get()
+    freq=freqvar.get()
 
-def run_315():
-    return "ABC"
+    if (freq=="Monthly"):
+        freq=3
+    if (freq=="Quarterly"):
+        freq=2
+    if (freq=="Biyearly"):
+        freq=1
+    if (freq=="Yearly"):
+        freq=0
+
+    run_315(accounts,sub,year,freq)
+
+def run_315(accounts,sub,year,freq):
+    print ("Pulling a total of {0} reports.".format(len(accounts*(1 if freq==0 else 2 if freq==1 else 4 if freq==2 else 12))))
+    driver = webdriver.Chrome()
+    driver.get("http://idssprd.cusa.canon.com/")
+    driver.find_element_by_name("user").send_keys("C18889")
+    driver.find_element_by_name("password").send_keys("343434Canon")
+    driver.find_element_by_name("login").send_keys(Keys.RETURN)
+
+
+    main_sub=True if sub=='CUSR0315' else False
+    companies=True if sub=="CSAR0315" else False
+
+    if (main_sub):
+        from_path = "/html/body/table[1]/tbody/tr[3]/td/form/table/tbody/tr/td[2]/input[1]"
+        to_path = "/html/body/table[1]/tbody/tr[3]/td/form/table/tbody/tr/td[2]/input[2]"
+        act_from_path = "/html/body/table[1]/tbody/tr[3]/td/form/table/tbody/tr/td[2]/input[3]"
+        act_to_path = "/html/body/table[1]/tbody/tr[3]/td/form/table/tbody/tr/td[2]/input[4]"
+    else:
+        from_path = "/html/body/table[1]/tbody/tr[3]/td/form/table/tbody/tr/td[2]/input[1]"
+        to_path = "/html/body/table[1]/tbody/tr[3]/td/form/table/tbody/tr/td[2]/input[2]"
+        act_from_path = "/html/body/table[1]/tbody/tr[3]/td/form/table/tbody/tr/td[2]/select[1]"
+        act_to_path = "/html/body/table[1]/tbody/tr[3]/td/form/table/tbody/tr/td[2]/select[2]"
+
+    counter = 0
+    start = datetime.datetime.now()
+
+    if (freq == 0):
+        dates_start = ["01/{0}".format(year)]
+        dates_end = ["12/{0}".format(year)]
+
+    elif (freq == 1):
+        dates_start = ["01/{0}".format(year), "07/{0}".format(year)]
+        dates_end = ["06/{0}".format(year), "12/{0}".format(year)]
+
+    elif (freq == 2):
+        dates_start = ["01/{0}".format(year), "04/{0}".format(year), "07/{0}".format(year), "10/{0}".format(year)]
+        dates_end = ["03/{0}".format(year), "06/{0}".format(year), "09/{0}".format(year), "12/{0}".format(year)]
+
+    else:
+        dates_start = ["01/{0}".format(year), "02/{0}".format(year), "03/{0}".format(year), "04/{0}".format(year) \
+            , "05/{0}".format(year), "06/{0}".format(year), "07/{0}".format(year), "08/{0}".format(year) \
+            , "09/{0}".format(year), "10/{0}".format(year), "11/{0}".format(year), "12/{0}".format(year)]
+        dates_end = ["01/{0}".format(year), "02/{0}".format(year), "03/{0}".format(year), "04/{0}".format(year) \
+            , "05/{0}".format(year), "06/{0}".format(year), "07/{0}".format(year), "08/{0}".format(year) \
+            , "09/{0}".format(year), "10/{0}".format(year), "11/{0}".format(year), "12/{0}".format(year)]
+
+    for account in accounts:
+        for j in range(len(dates_start)):
+
+            driver.get("http://idssprd.cusa.canon.com/scripts/rds/cgionline.exe?program_id=CSLMENU&rt=0&PARA=")
+            top_level = driver.find_element_by_xpath('//*[@id="mnu-Main"]/li[3]')
+            driver.execute_script("arguments[0].setAttribute('class','mnuopen')", top_level)
+            for folder in range(1, 16):
+                driver.execute_script("arguments[0].setAttribute('class','mnuopen')", \
+                                      driver.find_element_by_xpath('//*[@id="mnu-FINORACLE"]/li[{0}]'.format(folder)))
+
+            driver.find_element_by_partial_link_text(sub).click()
+
+            for i in range(7):
+                driver.find_element_by_xpath(from_path).send_keys(Keys.BACKSPACE)
+            driver.find_element_by_xpath(from_path).send_keys(dates_start[j])
+
+            for i in range(7):
+                driver.find_element_by_xpath(to_path).send_keys(Keys.BACKSPACE)
+            driver.find_element_by_xpath(to_path).send_keys(dates_end[j])
+
+            driver.find_element_by_xpath(act_from_path).send_keys(str(account))
+            driver.find_element_by_xpath(act_to_path).send_keys(str(account))
+
+            if (companies):
+                select = Select(driver.find_element_by_xpath('/html/body/table[1]/tbody/tr[3]/td/form/table/tbody/tr/td[4]/select[2]'))
+                company_dd = Select(driver.find_element_by_xpath(
+                    '/html/body/table[1]/tbody/tr[3]/td/form/table/tbody/tr/td[4]/select[4]'))
+                company_dd.select_by_visible_text("311")
+            else:
+                select = Select(driver.find_element_by_xpath(
+                    '/html/body/table[1]/tbody/tr[3]/td/form/table/tbody/tr/td[4]/select[4]'))
+
+            select.select_by_visible_text('Payables')
+            driver.find_element_by_xpath('//*[@id="submit_run"]/img').click()
+            counter += 1
+    time_rn = datetime.datetime.now() - start
+    print(time_rn.total_seconds())
