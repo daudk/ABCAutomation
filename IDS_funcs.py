@@ -1,4 +1,3 @@
-import csv
 import datetime
 import time
 from glob import glob
@@ -7,54 +6,12 @@ from tkinter import filedialog
 
 import pandas as pd
 from easygui import multpasswordbox
-from easygui import multenterbox
 from numpy import abs, arange
-
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
+
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
-
-from openpyxl import load_workbook
-
-
-def sample_n():
-    file = filedialog.askopenfilename(initialdir = "/",title = "Select your excel file",filetypes = [("Excel Files","*.xlsx")])
-
-    msg = "Enter Arguments to create sample"
-    title = "Generating random sample"
-    fieldNames = ["Worksheet index: ", "Header row: ", "Skip footer: ","Number of Samples: "]
-    fieldValues = []  # we start with blanks for the values
-    fieldValues = multenterbox(msg, title, fieldNames)
-
-    extract_sample(file, fieldValues[0],fieldValues[1],fieldValues[2],fieldValues[3])
-
-def extract_sample(file, index,header,footer,n):
-    if not index:
-        index = 0
-    if not header:
-        header=0
-    if not footer:
-        footer =0
-    if not n:
-        n=25
-
-    df = pd.read_excel(file, sheet_name=int(index)-1,header = int(header)-1,skip_rows=int(footer))
-
-    df2 = df.sample(int(n))
-
-    df2.reset_index(inplace=True)
-    df2['index'] = df2['index'] + 1 + int(header)
-    df2 = df2.rename(columns={'index': 'Old Row Number'})
-
-    writer = pd.ExcelWriter(file, engine='openpyxl')
-    book = load_workbook(file)
-    writer.book = book
-    writer.sheets = dict((ws.title, ws) for ws in book.worksheets)
-
-    df2.to_excel(writer, sheet_name='New Sample', index=False)
-
-    writer.save()
 
 
 
@@ -75,19 +32,20 @@ def account_pulls_from_340():
         for i in range(len(fieldNames)):
             if fieldValues[i].strip() == "":
                 errmsg = errmsg + ('"%s" is a required field.\n\n' % fieldNames[i])
-        if (len(fieldValues[0])!=3):
+        if (len(fieldValues[0]) != 3):
             errmsg = errmsg + "\nSubsidiary should be a 3 letter code, e.g 'CSA', 'CUS'."
         try:
-            fieldValues[1]=int(fieldValues[1])
+            fieldValues[1] = int(fieldValues[1])
         except:
-            errmsg=errmsg+"\nYear should be a 4 digit integer, e.g 2018."
+            errmsg = errmsg + "\nYear should be a 4 digit integer, e.g 2018."
         if errmsg == "": break  # no problems found
         fieldValues = multpasswordbox(errmsg, title, fieldNames, fieldValues)
 
-    data_340 = get_accounts_to_pull(fieldValues[2], fieldValues[3], fieldValues[0].upper()+"R0340", fieldValues[1], directory)
+    data_340 = get_accounts_to_pull(fieldValues[2], fieldValues[3], fieldValues[0].upper() + "R0340", fieldValues[1],
+                                    directory)
 
     process_340(data_340, directory)
-    print ((datetime.datetime.now()-start).total_seconds())
+    print((datetime.datetime.now() - start).total_seconds())
 
 
 def download_all():
@@ -115,7 +73,7 @@ def download_all():
     prefs = {'download.default_directory': directory}
     chrome_options.add_experimental_option('prefs', prefs)
 
-    driver = webdriver.Chrome(chrome_options=chrome_options)
+    driver = webdriver.Chrome('Resources/chromedriver.exe',chrome_options=chrome_options)
     driver.get("http://idssprd.cusa.canon.com/")
     driver.find_element_by_name("user").send_keys(user)
     driver.find_element_by_name("password").send_keys(password)
@@ -148,15 +106,13 @@ def download_all():
     print("Time right now is", datetime.datetime.now())
 
 
-
 def process_340(df_340, directory):
     df_340['size'] = df_340['amounts'].apply(size_accounts)
     df_340 = df_340[['accounts', 'Total Actuals', 'size']]
     j = 0
     while "output_{0}.csv".format(j) in listdir(directory):
-        j=j+1
+        j = j + 1
     df_340.to_csv(directory + '/output_{0}.csv'.format(j), index=False)
-
 
 
 def get_accounts_to_pull(user, password, sub, year, directory):
@@ -219,7 +175,6 @@ def get_accounts_to_pull(user, password, sub, year, directory):
     return data
 
 
-
 def size_accounts(accounts):
     if accounts < 1000000:
         return 0
@@ -231,8 +186,5 @@ def size_accounts(accounts):
         return 3
 
 
-def log_results():
-    fields=[1,2,3,4,5,6,7,'a','b',8]
-    with open("Resources/log.csv", 'a') as log:
-        writer = csv.writer(log)
-        writer.writerow(fields)
+def run_315():
+    return "ABC"
