@@ -1,11 +1,8 @@
 from tkinter import *
 from IDS_funcs import *
+from SPD_funcs import *
 def client_exit():
     exit()
-
-
-def callback():
-    print("click!")
 
 
 class SampleApp(Tk):
@@ -26,7 +23,7 @@ class IDSPage(Frame):
     def __init__(self, master):
         Frame.__init__(self, master)
 
-        ids_label = Label(self, text="IDS tasks",font=("Helvetica", 14))
+        ids_label = Label(self, text="IDS/S21/Oracle tasks",font=("Helvetica", 14))
         start_button = Button(self, text="Return to start page",
                                  command=lambda: master.switch_frame(StartPage))
 
@@ -35,10 +32,10 @@ class IDSPage(Frame):
 
 
         btn_1 = Button(self, text = "Get Accounts Hitting 340",command = account_pulls_from_340,width=20)
-        btn_1.grid(row=1,column=0,padx=10)
+        btn_1.grid(row=1,column=0,padx=10,pady=15)
         btn_1_label = Label(self, text = 'Given a sub and year, pulls all accounts hitting the "Payables" source for \
 that sub and outputs them into new .csv file',wraplength=305,justify=LEFT)
-        btn_1_label.grid(row=1,column=1,padx=10,sticky = W)
+        btn_1_label.grid(row=1,column=1,padx=10,sticky = W,pady=15)
 
         btn_2 = Button(self, text="Download All", command=download_all, width=20)
         btn_2.grid(row=2, column=0,padx=10)
@@ -46,42 +43,45 @@ that sub and outputs them into new .csv file',wraplength=305,justify=LEFT)
                             wraplength=305, justify=LEFT)
         btn_2_label.grid(row=2, column=1,pady=20,padx=10,sticky = W)
 
-        btn_3 = Button(self, text="Rename All", command=rename_all, width=20)
-        btn_3.grid(row=3, column=0,padx=10)
-        btn_3_label = Label(self, text='Renames download IDS reports to more meaningful names. (Currently only functional for 315)', wraplength=305, justify=LEFT)
-        btn_3_label.grid(row=3, column=1, pady=20, padx=10, sticky=W)
-
-        btn_4 = Button(self, text="Combine Excel files", command=combine_files, width=20)
-        btn_4.grid(row=4, column=0,padx=10)
-        btn_4_label = Label(self, text='Combine multiple xlsx files into 1 file.', wraplength=305, justify=LEFT)
-        btn_4_label.grid(row=4, column=1,pady=20,padx=10,sticky = W)
 
 
-        start_button.grid(row=5,column=1,sticky=W+E+S,padx=(0,40))
+
+        start_button.grid(row=5,column=1,sticky=W+E+S,padx=(0,40),pady=15)
 
 class SpdPage(Frame):
     def __init__(self, master):
         Frame.__init__(self, master)
 
-        page_1_label = Label(self, text="This is the Spreadsheets page")
+        spd_label = Label(self, text="Spreadsheet tasks", font=("Helvetica", 14))
         start_button = Button(self, text="Return to start page",
                                  command=lambda: master.switch_frame(StartPage))
-        page_1_label.grid()
-        #start_button.grid()
+        spd_label.grid(sticky='news',columnspan=2)
 
         btn_1 = Button(self, text="T_value Calculator", command=t_val_calc, width=20)
         btn_1.grid(row=1, column=0, padx=10)
         btn_1_label = Label(self, text='Point to folder containing TV6 files and the script will calculate T values from 8/2018 onwards and output summary file.', wraplength=305, justify=LEFT)
-        btn_1_label.grid(row=1, column=1, padx=10, sticky=W)
+        btn_1_label.grid(row=1, column=1,pady=15, padx=10, sticky=W)
 
         btn_2 = Button(self, text="Extract Sample", command=sample_n, width=20)
         btn_2.grid(row=2, column=0, padx=10)
         btn_2_label = Label(self,
                             text='Extracts sample from total population and adds as a sheet to existing excel file.',
                             wraplength=305, justify=LEFT)
-        btn_2_label.grid(row=2, column=1, padx=10, sticky=W)
+        btn_2_label.grid(row=2, column=1, pady=15, padx=10, sticky=W)
 
-        start_button.grid(row=5, column=1, sticky=W + E + S, padx=(0, 40))
+        btn_3 = Button(self, text="Rename All", command=rename_all, width=20)
+        btn_3.grid(row=3, column=0, padx=10)
+        btn_3_label = Label(self,
+                            text='Renames download IDS reports to more meaningful names. (Currently only functional for 315)',
+                            wraplength=305, justify=LEFT)
+        btn_3_label.grid(row=3, column=1, pady=20, padx=10, sticky=W)
+
+        btn_4 = Button(self, text="Combine Excel files", command=combine_files, width=20)
+        btn_4.grid(row=4, column=0, padx=10)
+        btn_4_label = Label(self, text='Combine multiple xlsx files into 1 file.', wraplength=305, justify=LEFT)
+        btn_4_label.grid(row=4, column=1, pady=20, padx=10, sticky=W)
+
+        start_button.grid(row=5, column=1, sticky=W + E + S, padx=(0, 40),pady=15)
 
 
 class SOXPage(Frame):
@@ -92,7 +92,7 @@ class SOXPage(Frame):
         start_button = Button(self, text="Return to start page",
                                  command=lambda: master.switch_frame(StartPage))
         page_1_label.grid()
-        start_button.grid()
+        start_button.grid(pady=15)
 
 class DevPage(Frame):
     def __init__(self, master):
@@ -102,7 +102,7 @@ class DevPage(Frame):
         start_button = Button(self, text="Return to start page",
                                  command=lambda: master.switch_frame(StartPage))
         page_1_label.grid()
-        start_button.grid()
+        start_button.grid(pady=15)
 
 #
 # class PageTwo(Frame):
@@ -164,6 +164,8 @@ class StartPage(Frame):
         # self.pack(fill=BOTH, expand=1)
         self.grid()
 
+
+
         # creating a menu instance
         menu = Menu(self)
         # self.master.config(menu=menu)
@@ -184,6 +186,8 @@ class StartPage(Frame):
         menu.add_cascade(label="Edit", menu=edit)
         menu.add_cascade(label="Help", menu=help)
 
+
+
         self.master.config(menu=menu)
 
 
@@ -191,5 +195,5 @@ class StartPage(Frame):
 
 if __name__ == "__main__":
     app = SampleApp()
-    app.geometry("500x350")
+    #app.geometry("500x350")
     app.mainloop()
