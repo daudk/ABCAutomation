@@ -7,4 +7,4 @@ The intended users are ABC team members on Windows based machines (pywinauto wil
 There are 4 main modules that divide the platform into 4 broad use cases that sometimes overlap. This is done mainly to maintain structure and make the menus easie rto navigate.
 
 ### 2a. IDS, S21, Oracle Module:
-    This module houses functions that interact with Canon's proprietary systems and extracts data directly from those systems.
+This module houses functions that interact with Canon's proprietary systems and extracts data directly from those systems.
