@@ -45,7 +45,7 @@ class Pull315(Frame):
 
         subvar = StringVar(self)
         subvar.set("CUSA")
-        sub = OptionMenu(self, subvar, *["CUSA", "CSA", "CFS", "CITS", "CIIS"])
+        sub = OptionMenu(self, subvar, *["CUSA", "CFS", "CITS", "CCI"])
         sub_label = Label(self, text='Subsidiary: ', wraplength=305, justify=LEFT)
         sub.config(width=7)
         sub.grid(row=1, column=2, padx=(2,30),pady=5)
@@ -78,9 +78,9 @@ class Pull315(Frame):
         # to_mon = OptionMenu(self, to_mon_var, *[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
         # to_mon.grid()
 
-        # go_button = Button(self, text="GO!", command=lambda: print_test(edit_space))
+        go_button = Button(self, text="GO!", command=lambda: parse_315_input(edit_space,subvar,yearvar,freqvar))
 
-
+        go_button.grid(row=5, column=2, sticky=W + E + S, padx=(0, 40))
         start_button.grid(row=5, column=1, sticky=W + E + S, padx=(0, 40))
 
 

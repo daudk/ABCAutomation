@@ -110,7 +110,7 @@ def process_340(df_340, directory):
     df_340['size'] = df_340['amounts'].apply(size_accounts)
     df_340 = df_340[['accounts', 'Total Actuals', 'size']]
     j = 0
-    while "output_{0}.csv".format(j) in listdir(directory):
+    while "output_{0}_{1}_{2}.csv".format(j) in listdir(directory):
         j = j + 1
     df_340.to_csv(directory + '/output_{0}.csv'.format(j), index=False)
 
@@ -122,7 +122,7 @@ def get_accounts_to_pull(user, password, sub, year, directory):
     prefs = {'download.default_directory': directory}
     chrome_options.add_experimental_option('prefs', prefs)
 
-    driver = webdriver.Chrome('chromedriver.exe', chrome_options=chrome_options)
+    driver = webdriver.Chrome('Resources/chromedriver.exe', chrome_options=chrome_options)
     driver.get("http://idssprd.cusa.canon.com/")
     driver.find_element_by_name("user").send_keys(user)
     driver.find_element_by_name("password").send_keys(password)
@@ -216,10 +216,28 @@ def parse_315_input(edit_space,subvar,yearvar,freqvar):
 
 def run_315(accounts,sub,year,freq):
     print ("Pulling a total of {0} reports.".format(len(accounts*(1 if freq==0 else 2 if freq==1 else 4 if freq==2 else 12))))
-    driver = webdriver.Chrome()
+
+    msg = "Run 315 Reports"
+    title = "IDS credentials"
+    fieldNames = ["IDS username", "IDS password"]
+    fieldValues = []  # we start with blanks for the values
+    fieldValues = multpasswordbox(msg, title, fieldNames)
+
+    # make sure that none of the fields was left blank
+    while 1:
+        if fieldValues == None: break
+        errmsg = ""
+        for i in range(len(fieldNames)):
+            if fieldValues[i].strip() == "":
+                errmsg = errmsg + ('"%s" is a required field.\n\n' % fieldNames[i])
+        if errmsg == "": break  # no problems found
+        fieldValues = multpasswordbox(errmsg, title, fieldNames, fieldValues)
+
+
+    driver = webdriver.Chrome("Resources/chromedriver.exe")
     driver.get("http://idssprd.cusa.canon.com/")
-    driver.find_element_by_name("user").send_keys("C18889")
-    driver.find_element_by_name("password").send_keys("343434Canon")
+    driver.find_element_by_name("user").send_keys(fieldValues[0])
+    driver.find_element_by_name("password").send_keys(fieldValues[1])
     driver.find_element_by_name("login").send_keys(Keys.RETURN)
 
 
@@ -260,6 +278,7 @@ def run_315(accounts,sub,year,freq):
             , "05/{0}".format(year), "06/{0}".format(year), "07/{0}".format(year), "08/{0}".format(year) \
             , "09/{0}".format(year), "10/{0}".format(year), "11/{0}".format(year), "12/{0}".format(year)]
 
+
     for account in accounts:
         for j in range(len(dates_start)):
 
@@ -283,14 +302,13 @@ def run_315(accounts,sub,year,freq):
             driver.find_element_by_xpath(act_from_path).send_keys(str(account))
             driver.find_element_by_xpath(act_to_path).send_keys(str(account))
 
-            if (companies):
-                select = Select(driver.find_element_by_xpath('/html/body/table[1]/tbody/tr[3]/td/form/table/tbody/tr/td[4]/select[2]'))
-                company_dd = Select(driver.find_element_by_xpath(
-                    '/html/body/table[1]/tbody/tr[3]/td/form/table/tbody/tr/td[4]/select[4]'))
-                company_dd.select_by_visible_text("311")
-            else:
+            if main_sub or sub=="CFSR0315":
                 select = Select(driver.find_element_by_xpath(
                     '/html/body/table[1]/tbody/tr[3]/td/form/table/tbody/tr/td[4]/select[4]'))
+
+            else:
+                select = Select(driver.find_element_by_xpath(
+                    '/html/body/table[1]/tbody/tr[3]/td/form/table/tbody/tr/td[4]/select[2]'))
 
             select.select_by_visible_text('Payables')
             driver.find_element_by_xpath('//*[@id="submit_run"]/img').click()
