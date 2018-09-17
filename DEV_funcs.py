@@ -72,12 +72,6 @@ def s21_invoices():
                     continue
             save_dialog_top = save_dialog.top_window()
 
-            #     address=save_dialog_top['Toolbar3']
-            #     address.Click()
-            #     address.TypeKeys(dl_path)
-
-            #     name_bar = save_dialog_top['5']
-            #     name_bar.DoubleClick()
 
             save_dialog_top.TypeKeys(str(inv).replace("/", "-"))
 
@@ -94,8 +88,6 @@ def s21_invoices():
             actions.send_keys(Keys.F10)
             actions.perform()
 
-        # for i in os.listdir(dl_path):
-        #     os.rename(dl_path+i,dl_path+i[:-6]+i[-4:])
 
         print("Total Reports: ", counter)
         print("Total Time spend: ", (datetime.datetime.now() - start).total_seconds())

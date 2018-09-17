@@ -1,10 +1,9 @@
-from tkinter import *
-from tkinter import scrolledtext
+
 
 from DEV_funcs import *
 from IDS_funcs import *
 from SPD_funcs import *
-
+import GUIElements
 
 def client_exit():
     exit()
@@ -25,65 +24,6 @@ class SampleApp(Tk):
         self._frame.grid()
 
 
-class Pull315(Frame):
-    def __init__(self, master):
-        Frame.__init__(self, master)
-        start_button = Button(self, text="Return to start page",
-                              command=lambda: master.switch_frame(StartPage))
-
-        edit_space_label = Label(self,text="Enter Account numbers separated by a new line: ",wraplength=200, justify=LEFT)
-        edit_space = scrolledtext.ScrolledText(
-            master=self,
-            wrap='word',  # wrap text at full words only
-            width=25,  # characters
-            height=10,  # text lines
-            bg='white'  # background color of edit area
-        )
-        edit_space.grid(row=1, column=0, padx=10,pady=(3,20), sticky=W,rowspan=3)
-        edit_space_label.grid(row=0,column=0,sticky=W)
-
-
-        subvar = StringVar(self)
-        subvar.set("CUSA")
-        sub = OptionMenu(self, subvar, *["CUSA", "CFS", "CITS", "CCI"])
-        sub_label = Label(self, text='Subsidiary: ', wraplength=305, justify=LEFT)
-        sub.config(width=7)
-        sub.grid(row=1, column=2, padx=(2,30),pady=5)
-        sub_label.grid(row=1, column=1, padx=2, sticky=W)
-
-        yearvar = IntVar(self)
-        yearvar.set(2017)
-        year = OptionMenu(self, yearvar, *[2015, 2016, 2017, 2018])
-        year_label = Label(self, text='Year: ', wraplength=305, justify=LEFT)
-        year.config(width=7)
-        year.grid(row=2, column=2, padx=(2,30),pady=5)
-        year_label.grid(row=2, column=1, padx=2, sticky=W)
-
-
-        freqvar = StringVar(self)
-        freqvar.set("Yearly")
-        freq = OptionMenu(self, freqvar, *["Yearly", "Biyearly", "Quarterly", "Monthly"])
-        freq_label = Label(self, text='Frequency: ', wraplength=305, justify=RIGHT)
-        freq.config(width=7)
-        freq.grid(row=3, column=2, padx=(2,30),pady=(5,20),sticky='ew')
-        freq_label.grid(row=3, column=1, padx=2, sticky=W)
-
-        # from_mon_var = IntVar(self)
-        # from_mon_var.set(1)
-        # from_mon = OptionMenu(self, from_mon_var, *[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
-        # from_mon.grid()
-        #
-        # to_mon_var = IntVar(self)
-        # to_mon_var.set(1)
-        # to_mon = OptionMenu(self, to_mon_var, *[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
-        # to_mon.grid()
-
-        go_button = Button(self, text="GO!", command=lambda: parse_315_input(edit_space,subvar,yearvar,freqvar))
-
-        go_button.grid(row=5, column=2, sticky=W + E + S, padx=(0, 40))
-        start_button.grid(row=5, column=1, sticky=W + E + S, padx=(0, 40))
-
-
 
 class IDSPage(Frame):
     def __init__(self, master):
@@ -101,16 +41,21 @@ class IDSPage(Frame):
 that sub and outputs them into new .csv file', wraplength=305, justify=LEFT)
         btn_1_label.grid(row=1, column=1, padx=10, sticky=W)
 
-        btn_2 = Button(self, text="Download All", command=download_all, width=20)
+        btn_2 = Button(self, text="Download All", command=lambda: master.switch_frame(GUIElements.Download), width=20)
         btn_2.grid(row=2, column=0, padx=10)
         btn_2_label = Label(self, text='Download all reports from IDS that are available in .xlsx format.',
                             wraplength=305, justify=LEFT)
         btn_2_label.grid(row=2, column=1, pady=20, padx=10, sticky=W)
 
-        btn_3 = Button(self, text="Run 315 Reports", command=lambda: master.switch_frame(Pull315), width=20)
+        btn_3 = Button(self, text="Run 315 Reports", command=lambda: master.switch_frame(GUIElements.Pull315), width=20)
         btn_3.grid(row=3, column=0, padx=10)
         btn_3_label = Label(self, text='Runs 315 reports in bulk for multiple accounts.', wraplength=305, justify=LEFT)
         btn_3_label.grid(row=3, column=1, pady=20, padx=10, sticky=W)
+
+        btn_4 = Button(self, text="Expense Reports", command=lambda: master.switch_frame(GUIElements.InvoicePulls), width=20)
+        btn_4.grid(row=4, column=0, padx=10)
+        btn_4_label = Label(self, text='Pull Expense Reports from Oracle.', wraplength=305, justify=LEFT)
+        btn_4_label.grid(row=4, column=1, pady=20, padx=10, sticky=W)
 
         start_button.grid(row=5, column=1, sticky=W + E + S, padx=(0, 40))
 
@@ -186,6 +131,13 @@ class DevPage(Frame):
                             text='Pulls a list of invoices from S21',
                             wraplength=305, justify=LEFT)
         btn_1_label.grid(row=2, column=1, padx=10, sticky=W, pady=15)
+
+        btn_2 = Button(self, text="Test Path Grabber", command=lambda: master.switch_frame(GUIElements.Download), width=20)
+        btn_2.grid(row=3, column=0, padx=10, pady=20)
+        btn_2_label = Label(self,
+                            text='(hopefully) Grabs path to local downloads directory.',
+                            wraplength=305, justify=LEFT)
+        btn_2_label.grid(row=3, column=1, padx=10, sticky=W, pady=20)
 
         start_button.grid(row=5, column=1, sticky=W + E + S, padx=(0, 40), pady=20)
 
