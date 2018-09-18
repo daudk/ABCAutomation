@@ -17,3 +17,8 @@ Module contains some simple spreadsheet operations like merging files, renaming 
 
 ### 2d. Under Development Module:
 This module contains unfinished scripts that are current under production. Users should not use these scripts unless specifically asked to do so, they may be prone to breaking or crashing.
+
+## 3. List of functions
+
+#### Get Accounts Hitting 340
+Located under [IDS, S21, Oracle Module](#2a. IDS, S21, Oracle Module:)
