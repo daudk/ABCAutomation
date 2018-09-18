@@ -31,7 +31,7 @@ Useage:
 - Click Ok
 - New Chrome Browser should open and the program will freeze until it is done.
 
-### Download All
+#### Download All
 Located under IDS, S21, Oracle Module.
 Will save all reports that are ready for download in the "View Reports" section of your IDS.
 Useage:
@@ -40,5 +40,5 @@ Useage:
 - Click Ok
 - New Chrome Browser should open and start downloading your reports in .xlsx formar the program will freeze until it is done.
 
-#### Note: Please wait until all reports have finished running in IDS otherwise behavior may be unpredictable.
-#### Note: If file is not available in .xlsx format, it will default to ztab format. This behavior can be reconfigured, contact developer.
+##### Note: Please wait until all reports have finished running in IDS otherwise behavior may be unpredictable.
+##### Note: If file is not available in .xlsx format, it will default to ztab format. This behavior can be reconfigured, contact developer.
