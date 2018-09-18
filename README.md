@@ -128,3 +128,21 @@ Useage:
  <SUB> <frm_account>_<to_account> - <frm_date> to <to_date>.xlsx
 - If a file with that name already exists in that directory, the name will be appended with _1 or _2 and so on until a name is found that has not already been taken.
 ##### Note: Currently only works for a 315 file where the source has been specified. Can be made to work with any type of report, please contact developer so we can tweak to your needs.
+
+
+#### Combine Excel files
+Located in Spreadsheets Module
+
+Can combine a folder full of excel files into 1 large file as long as all files have same header names
+Useage: 
+- Clicking on the button will open file browser, simply navigate to the directory containg the files you need to merge.
+- Enter the header row, this is the row containing the header of the row. Again indexing starts at 1 and default value is also set to 1.
+-  Enter the number of rows you want skipped from the end of the sheet. This is usually done to remove any totals or other unnecessary information that may occur at the end of the sheet. Default is 0.
+- Output file is titled "combined_output.xlsx" and placed in same folder as the input files.
+
+#### Pull S21 Invoices
+Located in Under Development Module
+
+##### Note: This task is currently under development and should not be used by anyone.
+Downloads Invoices by searching them using Invoice Number and saves the invoice to your computer.
+
