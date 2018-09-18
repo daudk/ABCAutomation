@@ -7,4 +7,13 @@ The intended users are ABC team members on Windows based machines (pywinauto wil
 There are 4 main modules that divide the platform into 4 broad use cases that sometimes overlap. This is done mainly to maintain structure and make the menus easie rto navigate.
 
 ### 2a. IDS, S21, Oracle Module:
-This module houses functions that interact with Canon's proprietary systems and extracts data directly from those systems.
+This module houses functions that interact with Canon's proprietary systems and extracts data directly from those systems. All operations require user to enter creditionals which only exist while that specific function is running and never persist. Will consider moving to having user enter credentials directly in browser.
+
+### 2b. SOX Scoping Module:
+The SOX Scoping module contains mostly extremely specific SOX related procedures. Can pull and rec out reports, create populations and extract samples etc.
+
+### 2c. Spreadsheets Module:
+Module contains some simple spreadsheet operations like merging files, renaming files, extracting samples from population etc.
+
+### 2d. Under Development Module:
+This module contains unfinished scripts that are current under production. Users should not use these scripts unless specifically asked to do so, they may be prone to breaking or crashing.
