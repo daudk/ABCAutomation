@@ -139,6 +139,14 @@ class DevPage(Frame):
                             wraplength=305, justify=LEFT)
         btn_2_label.grid(row=3, column=1, padx=10, sticky=W, pady=20)
 
+        btn_3 = Button(self, text="Sample Selection", command=lambda: master.switch_frame(GUIElements.SampleSelection),
+                       width=20)
+        btn_3.grid(row=4, column=0, padx=10, pady=20)
+        btn_3_label = Label(self,
+                            text='Helper to select samples for various controls',
+                            wraplength=305, justify=LEFT)
+        btn_3_label.grid(row=4, column=1, padx=10, sticky=W, pady=20)
+
         start_button.grid(row=5, column=1, sticky=W + E + S, padx=(0, 40), pady=20)
 
 

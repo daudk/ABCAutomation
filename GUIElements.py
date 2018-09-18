@@ -1,11 +1,65 @@
 from os.path import expanduser
 from GUI import *
 from IDS_funcs import *
+from SOX_funcs import *
 from tkinter import scrolledtext
 
 
 
 new_directory=""
+
+def print_out(msg):
+    print (msg)
+
+
+
+class SampleSelection(Frame):
+    def __init__(self, master):
+        Frame.__init__(self, master)
+        start_button = Button(self, text="Return to start page",
+                              command=lambda: master.switch_frame(StartPage))
+
+        ctrlVar = StringVar(self)
+        ctrlVar.set("")
+        ctrl = OptionMenu(self,ctrlVar,*["15.2.3.02 F&A","15.2.1.08 BISG","15.2.1.10 ITCG","15.2.1.07 LAG","15.2.1.16 BISG",
+                                         "15.2.1.13 BISG","15.2.1.13 LAG","15.2.1.12 ITCG","15.2.6.09 ITCG","4.6.09 ITCG"])
+        ctrl_label=Label(self, text="Control Number: ", wraplength=305,justify=LEFT)
+        ctrl.config(width=10)
+        ctrl.grid(row=1, column=1, pady=5,sticky=W)
+        ctrl_label.grid(row=1, column=0, padx=5, sticky=W)
+
+        samp_size_var =  StringVar()
+        samp_size = Entry(self,textvariable=samp_size_var)
+        samp_size_var.set("25")
+        samp_size.config(width=3)
+        samp_size.grid(row=2,column=1,sticky=W)
+        samp_size_label = Label(self, text ="# of Samples: ")
+        samp_size_label.grid(row=2, column=0, padx=5, sticky=W)
+
+
+
+        text = Text(self, state='disabled', width=35, height=1)
+        text.configure(state='disabled')
+
+        browse_button = Button(self, text="Browse", command=lambda: file_browser("Point to Manage Expense Pickle File!"))
+        download_label = Label(self, text="Master File: ", justify=LEFT)
+        download_label.grid(row=3, column=0,padx=(5, 5), sticky=W)
+
+        def file_browser(msg):
+            new_directory = filedialog.askopenfilename(title=msg,initialdir = "/",filetypes = [("Pickle Files","*.pkl")])
+            text.configure(state='normal')
+            text.delete(1.0, 'end')
+            text.insert(1.0, new_directory)
+            text.configure(state='disabled')
+
+        go_button = Button(self, text="GO!",
+                           command=lambda: sox_test_samples(ctrlVar.get(),samp_size_var.get(),text.get(1.0,'end').strip()))
+        text.grid(row=3, column=1,columnspan=2)
+        browse_button.grid(row=3, column=3, padx=15, pady=10)
+
+        start_button.grid(row=5, column=0, padx=(15, 0))
+        go_button.grid(row=5,column=3,sticky=W+E+N+S,padx=(0,15))
+
 class Download(Frame):
     def __init__(self, master):
         Frame.__init__(self, master)
@@ -133,7 +187,7 @@ class Pull315(Frame):
 
         subvar = StringVar(self)
         subvar.set("CUSA")
-        sub = OptionMenu(self, subvar, *["CUSA", "CFS", "CITS", "CCI"])
+        sub = OptionMenu(self, subvar, *["CUSA", "CFS", "CITS", "CCI","CIS", "CPA"])
         sub_label = Label(self, text='Subsidiary: ', wraplength=305, justify=LEFT)
         sub.config(width=7)
         sub.grid(row=1, column=2, padx=(2, 5), pady=5)

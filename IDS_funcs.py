@@ -273,6 +273,10 @@ def parse_315_input(edit_space,subvar,yearvar,freqvar,sourcevar):
         sub="CCIR0315"
     elif (sub=="CITS"):
         sub="CITSR315"
+    elif (sub=="CIS"):
+        sub="CISR0315"
+    elif (sub=="CPA"):
+        sub="CPAR0315"
     else:
         sub="CUSR0315"
     print(sub)
@@ -378,10 +382,9 @@ def run_315(accounts,sub,year,freq,sourcevar):
             driver.find_element_by_xpath(act_from_path).send_keys(str(account))
             driver.find_element_by_xpath(act_to_path).send_keys(str(account))
 
-            if main_sub or sub=="CFSR0315":
+            if main_sub or sub in ["CFSR0315","CISR0315","CPAR0315"]:
                 select = Select(driver.find_element_by_xpath(
                     '/html/body/table[1]/tbody/tr[3]/td/form/table/tbody/tr/td[4]/select[4]'))
-
             else:
                 select = Select(driver.find_element_by_xpath(
                     '/html/body/table[1]/tbody/tr[3]/td/form/table/tbody/tr/td[4]/select[2]'))
