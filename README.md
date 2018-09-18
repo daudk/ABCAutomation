@@ -21,4 +21,4 @@ This module contains unfinished scripts that are current under production. Users
 ## 3. List of functions
 
 #### Get Accounts Hitting 340
-Located under [IDS, S21, Oracle Module](#2a. IDS, S21, Oracle Module:)
+Located under [IDS, S21, Oracle Module](#2a.-IDS,-S21,-Oracle-Module:)
