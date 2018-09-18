@@ -30,6 +30,7 @@ Useage:
 - Enter Single Sign On Username and Password
 - Click Ok
 - New Chrome Browser should open and the program will freeze until it is done.
+##### Note: This is a very specific function that not many people will need. If unsure about capability or its use, contact developer.
 
 #### Download All
 Located under IDS, S21, Oracle Module.
@@ -42,3 +43,37 @@ Useage:
 
 ##### Note: Please wait until all reports have finished running in IDS otherwise behavior may be unpredictable.
 ##### Note: If file is not available in .xlsx format, it will default to ztab format. This behavior can be reconfigured, contact developer.
+
+
+#### Run 315 Reports
+Located under IDS, S21, Oracle Module.
+Will run the 315 report in bulk for a given subsidiary for a given year.
+Useage:
+- Clicking on button will reveal a number of options.
+- Enter account numbers in the whit space in the left, each account must be separated by a new line. e.g:
+    11711005
+    21211001
+    65301205
+- In the Subsidiary drop down, choose a subsidiary, default option will alsways be CUSA
+- In the next drop down choose the year, default will always be current year - 1.
+- The frequency drop down provides an option not available within IDS. For larger accounts, all the transactions from 1 year may not fit in 1 report so you can specify how many reports to break the request into. Yearly will pull 1 report for full year, Semi-annually will pull 2, quarterly will pll 4 per account and monthly will pull 12 per account. Default is set to yearly.
+  ##### Note: If unsure, leave this option set to yearly
+- Choose source. Default is set to "All Values". 
+  ##### Note: The Source drop down displays all options available in IDS, some options may not exist for certain subs. Verify the source actually does exist for the sub you are requesting.
+- Program will become unresponsive while the reports are being requested but you should be able to view progress in the Chrome window that pops up. Avoid interacting with the Chrome window in any way while program is running, this may lead to unpredictable behavior.
+##### Coming soon: Multithreading to allow view of progress bars and so that program does not become unresponsive while one thread is running.
+
+#### Expense Reports
+Located under IDS, S21, Oracle Module.
+Will take screenshots of expense reports overview page and download all attachements and neatly organize them into 1 folder per expense report.
+Useage:
+- Enter the expense report numbers in the white space to the left. Each expense report number should be separated by new line e.g:
+    SSE1257674
+    SSE1254363
+    SSE1259299
+    SSE1234148
+    SSE1257589
+    SSE1259492
+- Specify download directory by clicking Browse button. Default will be C:\Users\<user-name>\Downloads\
+- Click Go button, program will become unresponsive but progress can be followed in the Chrome window that pops up. Avoid interacting with the Chrome window in any way while program is running, this may lead to unpredictable behavior.
+##### Coming soon: Multithreading to allow view of progress bars and so that program does not become unresponsive while one thread is running.
