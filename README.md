@@ -21,4 +21,24 @@ This module contains unfinished scripts that are current under production. Users
 ## 3. List of functions
 
 #### Get Accounts Hitting 340
-Located under [IDS, S21, Oracle Module](#2a.-ids,-s21-and-oracle-module:)
+Located under IDS, S21, Oracle Module.
+Given a subsidiary and year, will download the 340 report for the sub and year to a directory and will then extract a new file called output.xlsx that keeps only the Account Number and Total Actuals column and adds a new column called size ranging from 0 to 3 depending on how much money flowed through a given account in a year.
+Useage:
+- Clicking the button will open a file browser dialog, navigate to and select any directory. 
+- Will then ask for subsidiary, please enter full name of report e.g "CUSR0340".
+- Enter year as a 4 digit number e.g 2017
+- Enter Single Sign On Username and Password
+- Click Ok
+- New Chrome Browser should open and the program will freeze until it is done.
+
+### Download All
+Located under IDS, S21, Oracle Module.
+Will save all reports that are ready for download in the "View Reports" section of your IDS.
+Useage:
+- Clicking the button will open a file browser dialog, navigate to and select any directory. 
+- Enter Single Sign On Username and Password
+- Click Ok
+- New Chrome Browser should open and start downloading your reports in .xlsx formar the program will freeze until it is done.
+
+#### Note: Please wait until all reports have finished running in IDS otherwise behavior may be unpredictable.
+#### Note: If file is not available in .xlsx format, it will default to ztab format. This behavior can be reconfigured, contact developer.
