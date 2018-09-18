@@ -22,6 +22,7 @@ This module contains unfinished scripts that are current under production. Users
 
 #### Get Accounts Hitting 340
 Located under IDS, S21, Oracle Module.
+
 Given a subsidiary and year, will download the 340 report for the sub and year to a directory and will then extract a new file called output.xlsx that keeps only the Account Number and Total Actuals column and adds a new column called size ranging from 0 to 3 depending on how much money flowed through a given account in a year.
 Useage:
 - Clicking the button will open a file browser dialog, navigate to and select any directory. 
@@ -34,6 +35,7 @@ Useage:
 
 #### Download All
 Located under IDS, S21, Oracle Module.
+
 Will save all reports that are ready for download in the "View Reports" section of your IDS.
 Useage:
 - Clicking the button will open a file browser dialog, navigate to and select any directory. 
@@ -47,13 +49,18 @@ Useage:
 
 #### Run 315 Reports
 Located under IDS, S21, Oracle Module.
+
 Will run the 315 report in bulk for a given subsidiary for a given year.
 Useage:
 - Clicking on button will reveal a number of options.
 - Enter account numbers in the whit space in the left, each account must be separated by a new line. e.g:
+
     11711005
+    
     21211001
+    
     65301205
+    
 - In the Subsidiary drop down, choose a subsidiary, default option will alsways be CUSA
 - In the next drop down choose the year, default will always be current year - 1.
 - The frequency drop down provides an option not available within IDS. For larger accounts, all the transactions from 1 year may not fit in 1 report so you can specify how many reports to break the request into. Yearly will pull 1 report for full year, Semi-annually will pull 2, quarterly will pll 4 per account and monthly will pull 12 per account. Default is set to yearly.
@@ -65,15 +72,17 @@ Useage:
 
 #### Expense Reports
 Located under IDS, S21, Oracle Module.
+
 Will take screenshots of expense reports overview page and download all attachements and neatly organize them into 1 folder per expense report.
 Useage:
 - Enter the expense report numbers in the white space to the left. Each expense report number should be separated by new line e.g:
+
     SSE1257674
+    
     SSE1254363
-    SSE1259299
-    SSE1234148
-    SSE1257589
-    SSE1259492
+    
+    SSE1254846
+    
 - Specify download directory by clicking Browse button. Default will be C:\Users\<user-name>\Downloads\
 - Click Go button, program will become unresponsive but progress can be followed in the Chrome window that pops up. Avoid interacting with the Chrome window in any way while program is running, this may lead to unpredictable behavior.
 ##### Coming soon: Multithreading to allow view of progress bars and so that program does not become unresponsive while one thread is running.
